@@ -23,9 +23,10 @@ def get_all_articles():
 
 @app.get("/articles/?label={label}")
 def get_article_by_label(label: str):
+    
     session = Session(bind=engine, expire_on_commit=False)
 
-    get_labels = session.query(create_article_text)
+    get_labels = session.query(create_article_text).filter(articles_info.date.contain(label))
 
     session.close()
 
