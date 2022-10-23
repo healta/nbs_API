@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 import models
 from models import create_article_text
 from fastapi import HTTPException
+import sqlite3
 
 #creates database, but not needed, DB already created
 Base.metadata.create_all(engine)
@@ -21,28 +22,44 @@ def get_all_articles():
 
     return all_articles
 
-@app.get("/articles/?label={label}")
-def get_article_by_label(label: str):
+@app.get("/articles/label={label}")
+async def get_article_by_label(label:str):
+
+    con = sqlite3.connect('NBS_scrapes.db')
     
-    session = Session(bind=engine, expire_on_commit=False)
+    cur = con.cursor()
 
-    get_labels = session.query(create_article_text).filter(articles_info.date.contain(label))
+    query = """SELECT * FROM articles_info WHERE tags = ?;"""
 
-    session.close()
+    cur.execute(query,(label,))
+
+    get_labels = cur.fetchall()
+    
+    cur.close()
+
+    con.close()
 
     if not get_labels:
         raise HTTPException(status_code=404, detail=f"Article with label {tags} not found.")
 
     return get_labels
 
-@app.get("/articles/?date={dates}")
-async def get_article_by_date(dates: str):
+@app.get("/articles/date={dates}")
+def get_article_by_date(dates: str):
 
-    session = Session(bind=engine, expire_on_commit=False)
+    con = sqlite3.connect('NBS_scrapes.db')
+    
+    cur = con.cursor()
 
-    get_dates = sesion.query(articles_info).filter(articles_info.date.contain(dates))
+    query = """SELECT * FROM articles_info WHERE date = ?;"""
 
-    session.close()
+    cur.execute(query,(dates,))
+
+    get_dates = cur.fetchall()
+    
+    cur.close()
+
+    con.close()
 
     if not get_dates:
         raise HTTPException(status_code=404, detail=f"Article with date {date} not found.")

@@ -46,11 +46,11 @@
 
 ##### Datapoints
 
-| Datapoint                | HTTP Method | Description                              |
-| ------------------------ | ----------- | ---------------------------------------- |
-| /articles/               | GET         | get all articles                         |
-| /articles/?label={label} | GET         | get list of articles with the same label |
-| /articles/?date={date}   | GET         | get list of articles from the date       |
-| /article/{article_id}    | GET         | get a single article                     |
-| /article/{article_id}    | DELETE      | delete a single article                  |
-| /article/{article_id}    | PUT         | update the text of a single article      |
+| Datapoint               | HTTP Method | Description                              |
+| ----------------------- | ----------- | ---------------------------------------- |
+| /articles/              | GET         | get all articles                         |
+| /articles/label={label} | GET         | get list of articles with the same label |
+| /articles/date={date}   | GET         | get list of articles from the date       |
+| /article/{article_id}   | GET         | get a single article                     |
+| /article/{article_id}   | DELETE      | delete a single article                  |
+| /article/{article_id}   | PUT         | update the text of a single article      |
