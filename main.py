@@ -23,7 +23,7 @@ def get_all_articles():
     return all_articles
 
 @app.get("/articles/label={label}")
-async def get_article_by_label(label:str):
+def get_article_by_label(label:str):
 
     con = sqlite3.connect('NBS_scrapes.db')
     
